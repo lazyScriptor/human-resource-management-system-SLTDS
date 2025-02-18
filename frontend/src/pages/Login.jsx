@@ -1,37 +1,48 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import { useFormik } from 'formik';
-import * as yup from 'yup';
-import { TextField, Button, Paper, Box, FormLabel } from '@mui/material';
-import axios from 'axios';
-import Home from '../reusableComponents/Home';
+import React from "react";
+import ReactDOM from "react-dom";
+import { useFormik } from "formik";
+import * as yup from "yup";
+import { TextField, Button, Paper, Box, FormLabel } from "@mui/material";
+import axios from "axios";
+import decodeToken from "../helpers/decodeToken";
+import { useNavigate } from "react-router-dom";
 const validationSchema = yup.object({
-  Username: yup.string('Enter your Username').required('Username is required'),
+  Username: yup.string("Enter your Username").required("Username is required"),
   Password: yup
-    .string('Enter your Password')
-    .min(2, 'Password should be of minimum 2 characters length')
-    .required('Password is required'),
+    .string("Enter your Password")
+    .min(2, "Password should be of minimum 2 characters length")
+    .required("Password is required"),
 });
 
 const Login = () => {
+  const navigate =useNavigate();
   const formik = useFormik({
     initialValues: {
-      Username: '',
-      Password: '',
+      Username: "",
+      Password: "",
     },
     validationSchema: validationSchema,
     onSubmit: async (values) => {
-      const response = await axios.post(
-        `${import.meta.env.VITE_API_URL}/user/authenticate`,
-        {
-          Username: values.Username,
-          Password: values.Password,
-        },
-        { withCredentials: true }
-      );
-      console.log(response.data);
-      const accessToken = response.data.accessToken;
-      localStorage.setItem('accessToken', accessToken);
+      try {
+        console.log("API URL:", import.meta.env.VITE_API_URL);
+        const response = await axios.post(
+          `${import.meta.env.VITE_API_URL}/user/authenticate`,
+          {
+            Username: values.Username,
+            Password: values.Password,
+          },
+          { withCredentials: true }
+        );
+
+        const accessToken = response.data.accessToken;
+        const userDetails = decodeToken(accessToken);
+
+        navigate(`/dashboard`)
+        console.log(userDetails);
+        localStorage.setItem("accessToken", accessToken);
+      } catch (error) {
+        console.log(error);
+      }
     },
   });
 
@@ -46,16 +57,14 @@ const Login = () => {
   };
   return (
     <div className="w-screen h-screen grid grid-col-1 md:grid-cols-2 bg-pink-100">
-      <div className="hidden md:flex md:h-screen">
-        <Home />
-      </div>
+      <div className="hidden md:flex md:h-screen"></div>
       <div className="flex justify-center items-center">
         <form onSubmit={formik.handleSubmit}>
           <div className="flex flex-col gap-4">
             <Box
               sx={{
-                display: 'flex',
-                flexDirection: 'column',
+                display: "flex",
+                flexDirection: "column",
                 gap: 4,
                 padding: 2,
                 borderRadius: 2,

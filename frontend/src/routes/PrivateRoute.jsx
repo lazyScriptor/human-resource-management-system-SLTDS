@@ -1,23 +1,23 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from "react";
 import {
   Routes,
   Route,
   Navigate,
   Outlet,
   BrowserRouter,
-} from 'react-router-dom';
-import axios from 'axios';
-import decodeToken from '../helpers/decodeToken';
-import Unauthorized from '../pages/Unauthorized';
-import Login from '../pages/Login';
-import AdminDashboard from '../pages/manager/employee/Employees';
-import Leaves from '../pages/manager/leaves/Leaves';
-import NavigationBar from '../reusableComponents/NavigationBar';
-import Employees from '../pages/manager/employee/Employees';
-import Dashboard from '../pages/manager/dashboard/Dashboard';
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+} from "react-router-dom";
+import axios from "axios";
+import decodeToken from "../helpers/decodeToken";
+import Unauthorized from "../pages/Unauthorized";
+import Login from "../pages/Login";
+import AdminDashboard from "../pages/manager/employee/Employees";
+import Leaves from "../pages/manager/leaves/Leaves";
+import NavigationBar from "../reusableComponents/NavigationBar";
+import Employees from "../pages/manager/employee/Employees";
+import Dashboard from "../pages/manager/dashboard/Dashboard";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 const PrivateRoute = ({ allowedRoles }) => {
-  const token = localStorage.getItem('accessToken');
+  const token = localStorage.getItem("accessToken");
   const [userRole, setUserRole] = useState(null);
   const [loading, setLoading] = useState(true);
 
@@ -30,7 +30,7 @@ const PrivateRoute = ({ allowedRoles }) => {
             withCredentials: true,
           }
         );
-        console.log('results', results);
+        console.log("results", results);
         setValidateStatus(JSON.stringify(results.data));
 
         setLoading(false);
@@ -42,7 +42,7 @@ const PrivateRoute = ({ allowedRoles }) => {
         setUserRole(decodedToken.accessLevel);
         console.log(decodedToken);
       } catch (error) {
-        console.error('Invalid token:', error);
+        console.error("Invalid token:", error);
         setUserRole(null);
       } finally {
         setLoading(false);
@@ -69,29 +69,28 @@ const AppRoutes = () => {
     <QueryClientProvider client={client}>
       <BrowserRouter>
         <Routes>
-          <Route path="/" element={<div>Home Page</div>} />
           <Route
-            path="/login"
+            path="/"
             element={
               <div>
                 <Login />
               </div>
             }
           />
+          <Route
+            path="dashboard"
+            element={
+              <>
+                <NavigationBar />
+                <Dashboard />
+              </>
+            }
+          />
           <Route path="/unauthorized" element={<Unauthorized />} />
           <Route
             path="/manager"
-            element={<PrivateRoute allowedRoles={['HR']} />}
+            element={<PrivateRoute allowedRoles={["HR"]} />}
           >
-            <Route
-              path="Dashboard"
-              element={
-                <>
-                  <NavigationBar />
-                  <Dashboard />
-                </>
-              }
-            />
             <Route
               path="employee"
               element={

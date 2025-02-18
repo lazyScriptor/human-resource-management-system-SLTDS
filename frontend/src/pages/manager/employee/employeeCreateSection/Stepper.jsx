@@ -1,21 +1,21 @@
-import * as React from 'react';
-import Box from '@mui/material/Box';
-import Stepper from '@mui/material/Stepper';
-import Step from '@mui/material/Step';
-import StepButton from '@mui/material/StepButton';
-import Button from '@mui/material/Button';
-import Typography from '@mui/material/Typography';
-import EmployeeCreateForm from './EmployeeCreateForm';
-import EmployeeAttendanceForm from './EmployeeAttendanceForm';
-import EmployeeResignationForm from './EmployeeResignationForm';
-import EmployeeJobTitleForm from './EmployeeJobTitleForm';
-import axios from 'axios';
+import * as React from "react";
+import Box from "@mui/material/Box";
+import Stepper from "@mui/material/Stepper";
+import Step from "@mui/material/Step";
+import StepButton from "@mui/material/StepButton";
+import Button from "@mui/material/Button";
+import Typography from "@mui/material/Typography";
+import EmployeeCreateForm from "./EmployeeCreateForm";
+import EmployeeAttendanceForm from "./EmployeeAttendanceForm";
+import EmployeeResignationForm from "./EmployeeResignationForm";
+import EmployeeJobTitleForm from "./EmployeeJobTitleForm";
+import axios from "axios";
 
 const steps = [
-  'Basic employee Details',
-  'Job Titles',
-  'Leaves and OT',
-  'Documents and Resignation Details',
+  "Basic employee Details",
+  "Job Titles",
+  "Leaves and OT",
+  "Documents and Resignation Details",
 ];
 
 export default function StepperMUI() {
@@ -29,13 +29,13 @@ export default function StepperMUI() {
         `${import.meta.env.VITE_API_URL}/employee/create`,
         formData
       );
-      console.log('Employee added successfully:', response.data);
+      console.log("Employee added successfully:", response.data);
     } catch (error) {
-      console.error('Error adding employee:', error);
+      console.error("Error adding employee:", error);
     }
   };
   React.useEffect(() => {
-    console.log('From stepper', formData);
+    console.log("From stepper", formData);
   }, [formData]);
   const totalSteps = () => {
     return steps.length;
@@ -80,13 +80,13 @@ export default function StepperMUI() {
   };
 
   const handleReset = () => {
-    setFormData({})
+    setFormData({});
     setActiveStep(0);
     setCompleted({});
   };
 
   return (
-    <Box sx={{ width: '60%' }}>
+    <Box sx={{ width: "60%" }}>
       <Stepper nonLinear activeStep={activeStep} sx={{ my: 4 }}>
         {steps.map((label, index) => (
           <Step key={label} completed={completed[index]}>
@@ -102,8 +102,8 @@ export default function StepperMUI() {
             <Button onClick={() => handleCreateEmployee(formData)}>
               Create the employee
             </Button>
-            <Box sx={{ display: 'flex', flexDirection: 'row', pt: 2 }}>
-              <Box sx={{ flex: '1 1 auto' }} />
+            <Box sx={{ display: "flex", flexDirection: "row", pt: 2 }}>
+              <Box sx={{ flex: "1 1 auto" }} />
               <Button onClick={handleReset}>Reset</Button>
             </Box>
           </React.Fragment>
@@ -134,7 +134,7 @@ export default function StepperMUI() {
                 setFormData={setFormData}
               />
             )}
-            <Box sx={{ display: 'flex', flexDirection: 'row', pt: 2 }}>
+            <Box sx={{ display: "flex", flexDirection: "row", pt: 2 }}>
               <Button
                 color="inherit"
                 disabled={activeStep === 0}
@@ -143,7 +143,7 @@ export default function StepperMUI() {
               >
                 Back
               </Button>
-              <Box sx={{ flex: '1 1 auto' }} />
+              <Box sx={{ flex: "1 1 auto" }} />
               <Button onClick={handleNext} sx={{ mr: 1 }}>
                 Next
               </Button>
@@ -151,7 +151,7 @@ export default function StepperMUI() {
                 (completed[activeStep] ? (
                   <Typography
                     sx={{
-                      display: 'inline-block',
+                      display: "inline-block",
                       backgroundColor: (theme) => theme.palette.primary[800],
                     }}
                     variant="caption"
@@ -161,8 +161,8 @@ export default function StepperMUI() {
                 ) : (
                   <Button onClick={handleComplete}>
                     {completedSteps() === totalSteps() - 1
-                      ? 'Finish'
-                      : 'Complete Step'}
+                      ? "Finish"
+                      : "Complete Step"}
                   </Button>
                 ))}
             </Box>
