@@ -19,6 +19,7 @@ export default Employees;
 const EmployeeBase = () => {
   return (
     <div>
+      <div className="w-[100%]  h-40 py-12"></div>
       <DataTableDataFeed />
     </div>
   );
@@ -32,7 +33,7 @@ const DataTableDataFeed = () => {
         `${import.meta.env.VITE_API_URL}/employee/manager/get-by-department`,
         { accessToken }
       );
-      return response.data; // ✅ Return only the data part of the response
+      return response.data;
     },
   });
 
