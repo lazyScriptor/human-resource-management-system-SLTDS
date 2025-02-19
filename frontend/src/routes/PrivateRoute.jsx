@@ -89,7 +89,7 @@ const AppRoutes = () => {
           <Route path="/unauthorized" element={<Unauthorized />} />
           <Route
             path="/manager"
-            element={<PrivateRoute allowedRoles={["HR"]} />}
+            element={<PrivateRoute allowedRoles={["HR","Admin"]} />}
           >
             <Route
               path="employee"

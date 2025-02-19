@@ -15,6 +15,7 @@ import AdbIcon from "@mui/icons-material/Adb";
 import { useNavigate } from "react-router-dom";
 import sltlogo from "../assets/sltLogo.png";
 const pages = [
+  { nav: "dashboard", name: "Dashbaord" },
   { nav: "employee", name: "employee" },
   { nav: "leaves", name: "Leaves" },
 ];
@@ -43,7 +44,11 @@ function NavigationBar() {
   };
 
   return (
-    <AppBar position="static " className="custom-container" sx={{ zIndex: 1000 }}>
+    <AppBar
+      position="static "
+      className="custom-container"
+      sx={{ zIndex: 1000 }}
+    >
       <Container maxWidth="xl" sx={{ zIndex: 1000 }}>
         <Toolbar disableGutters sx={{ zIndex: 1000 }}>
           <Box
