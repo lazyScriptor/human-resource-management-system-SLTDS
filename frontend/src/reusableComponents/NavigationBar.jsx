@@ -44,11 +44,7 @@ function NavigationBar() {
   };
 
   return (
-    <AppBar
-      position="static "
-      className="custom-container"
-      sx={{ zIndex: 1000 }}
-    >
+    <AppBar position="static " sx={{ zIndex: 1000 }}>
       <Container maxWidth="xl" sx={{ zIndex: 1000 }}>
         <Toolbar disableGutters sx={{ zIndex: 1000 }}>
           <Box

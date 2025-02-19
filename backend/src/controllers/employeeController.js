@@ -2,6 +2,7 @@ import Employee from "../models/employeeModel.js";
 import sequelize from "../helpers/connctionEstablish.js";
 import { Op } from "sequelize";
 import { filesUploadFunction } from "./filesController.js";
+import decodeToken from "../helpers/decodeToken.js";
 
 export const employeeController = {
   createEmployee: async (req, res) => {
@@ -95,6 +96,7 @@ export const employeeController = {
       });
     }
   },
+
   getEmployeeByEmployeename: async (req, res) => {
     try {
       const Employee = await Employee.findOne({
@@ -161,6 +163,36 @@ export const employeeController = {
         success: false,
         message: error.message,
       });
+    }
+  },
+};
+export const employeeControllerManagerSpecific = {
+  getEmployeesWithinDepartment: async (req, res) => {
+    try {
+      const rawToken = req.body.accessToken;
+      const tokenData = decodeToken(rawToken);
+      const userID = tokenData.userId;
+      console.log(userID);
+
+      const employee = await Employee.findOne({
+        where: { EmployeeID: userID },
+        attributes: ["DepartmentID"], 
+      });
+
+      if (!employee) {
+        return res.status(404).json({
+          success: false,
+          message: "Employee not found",
+        });
+      }
+
+      const employeesInDepartment = await Employee.findAll({
+        where: { DepartmentID: employee.DepartmentID },
+      });
+
+      res.json({ success: true, data: employeesInDepartment });
+    } catch (error) {
+      res.status(500).json({ success: false, message: error.message });
     }
   },
 };

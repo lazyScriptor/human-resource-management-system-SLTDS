@@ -5,11 +5,11 @@ import theme from './contexts/theme.js';
 import { ThemeProvider } from '@mui/material';
 const App = () => {
   return (
-    <>
+    <div className=''>
       <ThemeProvider theme={theme}>
         <PrivateRoute />
       </ThemeProvider>
-    </>
+    </div>
   );
 };
 
