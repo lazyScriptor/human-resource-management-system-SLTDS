@@ -1,5 +1,7 @@
 import { Sequelize } from "sequelize";
 import sequelize from "../helpers/connctionEstablish.js";
+import Department from "./departmentModel.js";
+import Role from "./roleModel.js";
 
 const { DataTypes } = Sequelize;
 
@@ -22,10 +24,6 @@ const Employee = sequelize.define(
     DepartmentID: {
       type: DataTypes.INTEGER,
       allowNull: true,
-      references: {
-        model: "Department", // Refers to the Department table
-        key: "DepartmentID",
-      },
     },
     Designation: {
       type: DataTypes.STRING(50),
@@ -65,10 +63,7 @@ const Employee = sequelize.define(
     RoleID: {
       type: DataTypes.INTEGER,
       allowNull: true,
-      references: {
-        model: "Role",
-        key: "RoleID",
-      },
+
     },
     PhoneNumber: {
       type: DataTypes.STRING(15),

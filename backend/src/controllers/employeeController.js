@@ -3,7 +3,7 @@ import sequelize from "../helpers/connctionEstablish.js";
 import { Op } from "sequelize";
 import { filesUploadFunction } from "./filesController.js";
 import decodeToken from "../helpers/decodeToken.js";
-
+import { Department } from "../models/relationsModel.js";
 export const employeeController = {
   createEmployee: async (req, res) => {
     const transaction = await sequelize.transaction();
@@ -174,9 +174,17 @@ export const employeeControllerManagerSpecific = {
       const userID = tokenData.userId;
       console.log(userID);
 
+      // Fetch the employee along with the department name
       const employee = await Employee.findOne({
         where: { EmployeeID: userID },
-        attributes: ["DepartmentID"], 
+        attributes: ["DepartmentID"],
+        include: [
+          {
+            model: Department, // Use the Department model, not a string
+            as: "Department", // Ensure this matches the association alias
+            attributes: ["DepartmentName"], // Attributes should be in an array
+          },
+        ],
       });
 
       if (!employee) {
@@ -186,12 +194,21 @@ export const employeeControllerManagerSpecific = {
         });
       }
 
+      // Fetch all employees within the same department
       const employeesInDepartment = await Employee.findAll({
         where: { DepartmentID: employee.DepartmentID },
+        include: [
+          {
+            model: Department, // Use the Department model, not a string
+            as: "Department", // Ensure this matches the association alias
+            attributes: ["DepartmentName"], // Attributes should be in an array
+          },
+        ],
       });
 
       res.json({ success: true, data: employeesInDepartment });
     } catch (error) {
+      console.error(error);
       res.status(500).json({ success: false, message: error.message });
     }
   },

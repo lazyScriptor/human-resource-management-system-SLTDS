@@ -97,7 +97,7 @@ export const userController = {
   },
   authenticateUser: async (Username, Password) => {
     if (!Username || !Password) {
-      return { message: "Username and password are required" }; // Returning error message in case of missing data
+      return { message: "Username and password are required" };
     }
 
     try {
@@ -106,8 +106,8 @@ export const userController = {
         include: [
           {
             model: Role,
-            as: "Role", // Alias must match the association
-            attributes: ["RoleName", "AccessLevel"], // Select specific columns
+            as: "Role", 
+            attributes: ["RoleName", "AccessLevel"], 
           },
         ],
       });

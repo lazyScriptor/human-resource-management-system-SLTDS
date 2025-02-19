@@ -4,7 +4,7 @@ import Paper from "@mui/material/Paper";
 
 const columns = [
   { field: "EmployeeID", headerName: "ID", width: 70 },
-  { field: "DepartmentID", headerName: "Department ID", width: 130 },
+  { field: "DepartmentName", headerName: "DepartmentName", width: 130 },
   { field: "Designation", headerName: "Designation", width: 150 },
   { field: "ContactInfo", headerName: "Contact Info", width: 150 },
   { field: "EmergencyContact", headerName: "Emergency Contact", width: 150 },
@@ -66,16 +66,18 @@ const columns = [
 ];
 
 export default function DataTable({ data }) {
-  const rows = data?.data || []; // ✅ Safe access to data
-
-  console.log(rows); // 🛠️ Debug to verify data structure
-
+  const rows =
+    data?.data?.map((row) => ({
+      ...row,
+      DepartmentName: row?.Department?.DepartmentName || "N/A",
+    })) || [];
+  console.log(data);
   return (
     <Paper sx={{ height: 400, width: "100%" }}>
       {/* <pre>{JSON.stringify(data.data, null, 2)}</pre>{" "} */}
       {/* Raw data for debugging */}
       <DataGrid
-        rows={data?.data}
+        rows={rows}
         columns={columns}
         pageSizeOptions={[5, 10]}
         checkboxSelection

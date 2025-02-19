@@ -1,6 +1,7 @@
 import { Sequelize } from "sequelize";
 import sequelize from "../helpers/connctionEstablish.js";
 import bcrypt from "bcrypt";
+import Employee from "./employeeModel.js";
 
 const { DataTypes } = Sequelize;
 
@@ -18,13 +19,10 @@ const Department = sequelize.define(
     },
     ManagerID: {
       type: DataTypes.INTEGER,
-      references: {
-        model: "Employee",
-        key: "EmployeeID",
-      },
       allowNull: true,
     },
   },
   { timestamps: true, freezeTableName: true, tableName: "Department" }
 );
 export default Department;
+
